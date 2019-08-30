@@ -1,33 +1,66 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink, Redirect, withRouter, Switch } from "react-router-dom";
 import Home from './components/Home';
 import About from './components/About';
 import News from './components/News';
 import Contact from './components/Contact';
+import Account from './components/Account';
+import Notfound from './components/Notfound';
+import Menu from './components/Menu';
+import Login from './components/Login';
 
 
+// function PrivateRoute({component: Component, ...rest}) {
+//   return (
+//     <Route {...rest} render={(props) => ()} >
 
-function App(match) {
-  return (
-    <Router>
-      <div className="container">
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/news">News</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-        </ul>
-        <hr></hr>
-        <div className="main">
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/news" component={News} />
-          <Route path="/contact" component={Contact} />
+//     </Route>
+//   );
+// }
+
+class App extends React.Component {
+
+  prepare_data_route() {
+    let routes = [
+      { path: '/', exact: true, main: () => <Home /> },
+      { path: '/about', exact: true, main: () => <About /> },
+      { path: '/news', exact: false, main: ({match}) => <News match={match} /> },
+      { path: '/contact', exact: true, main: () => <Contact /> },
+      { path: '/login', exact: true, main: () => <Login /> },
+      { path: '/account', exact: true, main: () => <Account /> },
+      { path: '', exact: false, main: () => <Notfound /> },
+    ]
+    return routes;
+  }
+
+  render_routes(routes) {
+    let data = null;
+    if (routes.length > 0) {
+      data = routes.map((item, index) => {
+        return (
+          <Route key={index} exact={item.exact} path={item.path} component={item.main} />
+        );
+      })
+    }
+    return data;
+  }
+
+  render() {
+    return (
+      <Router>
+        <div className="container">
+          <Menu />
+          <hr></hr>
+          <div className="main">
+            <Switch>
+              {this.render_routes(this.prepare_data_route())}
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;

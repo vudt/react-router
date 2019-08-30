@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Category from './Category';
 import ListArticles from './ListArticles';
 class News extends Component {
+
+    _prepare_menu_item() {
+        let data = [
+            { to: 'reactjs', title: 'ReactJS' },
+            { to: 'ror', title: 'Ruby on Rails' },
+            { to: 'php', title: 'PHP' },
+            { to: 'wordpress', title: 'Wordpress' },
+            { to: 'drupal', title: 'Drupal' },
+            { to: 'joomla', title: 'Joomla' },
+        ];
+        return data;
+    }
+
+    loop_menu_item(menus) {
+        let nav_Link = null;
+        if (menus.length > 0) {
+            nav_Link = menus.map((item, index) => {
+                return (
+                    <li key={index}><NavLink to={`${this.props.match.url}/${item.to}`} activeClassName="active">{item.title}</NavLink></li>
+                );
+            })
+        }
+        return nav_Link;
+    }
+
     render() {
         console.log('News Component')
         console.log(this.props.match)
@@ -15,12 +40,7 @@ class News extends Component {
                 <div className="sidebar">
                     <h2>Categories</h2>
                     <ul>
-                        <li><Link to={`${this.props.match.url}/reactjs`}>ReactJS</Link></li>
-                        <li><Link to={`${this.props.match.url}/ror`}>Ruby on Rails</Link></li>
-                        <li><Link to={`${this.props.match.url}/php`}>PHP</Link></li>
-                        <li><Link to={`${this.props.match.url}/wordpress`}>Wordpress</Link></li>
-                        <li><Link to={`${this.props.match.url}/drupal`}>Drupal</Link></li>
-                        <li><Link to={`${this.props.match.url}/joomla`}>Joomla</Link></li>
+                        { this.loop_menu_item(this._prepare_menu_item()) }
                     </ul>
                 </div>
             </div>

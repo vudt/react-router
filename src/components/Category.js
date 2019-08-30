@@ -3,6 +3,16 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ListArticles from './ListArticles';
 
 class Category extends Component {
+
+    list_articles_by_slug(slug) {
+        switch(slug) {
+            case 'reactjs':
+                return;
+            default:
+                return;
+        }
+    }
+
     render () {
         console.log('Category')
         console.log(this.props.match.params.slug)

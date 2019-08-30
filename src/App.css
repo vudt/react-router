@@ -30,6 +30,9 @@ ul li {float: left; padding: 0 10px}
 .sidebar ul li {float: none}
 .list-articles li {float: none}
 .content-wrapper {float: left; width: 70%;}
+.main-menu {padding-top: 30px}
+ul li a.active {text-decoration: underline}
+.frmLogin {width: 450px; margin-top: 45px}
 
 @keyframes App-logo-spin {
   from {
