@@ -33,6 +33,8 @@ ul li {float: left; padding: 0 10px}
 .main-menu {padding-top: 30px}
 ul li a.active {text-decoration: underline}
 .frmLogin {width: 450px; margin-top: 45px}
+.invalid-feedback {color: #dc3545}
+.is-invalid {border-color: #dc3545 !important}
 
 @keyframes App-logo-spin {
   from {
