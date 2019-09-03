@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect, withRouter, Switch } from "react-router-dom";
-import Home from './components/Home';
-import About from './components/About';
-import News from './components/News';
-import Contact from './components/Contact';
-import Account from './components/Account';
-import Notfound from './components/Notfound';
+import Home from './pages/Home'
+import About from './pages/About';
+import News from './pages/News';
+import Contact from './pages/Contact';
+import Account from './pages/Account';
+import Notfound from './pages/Notfound';
 import Menu from './components/Menu';
-import Login from './components/Login';
+import Login from './pages/Login';
 
 
 // function PrivateRoute({component: Component, ...rest}) {

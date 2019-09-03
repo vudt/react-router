@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-import Category from './Category';
-import ListArticles from './ListArticles';
+import Category from '../components/Category';
+import ListArticles from '../components/ListArticles';
 class News extends Component {
 
     _prepare_menu_item() {

@@ -14,8 +14,6 @@ class Category extends Component {
     }
 
     render () {
-        console.log('Category')
-        console.log(this.props.match.params.slug)
         return(
             <div>
                 <h2>Category {this.props.match.params.slug}</h2>

@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actLogin } from '../actions';
+
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 class Login extends Component {
 
     constructor(props) {
         super(props)
+        console.log(this.props)
         this.state = {
             validate: this.prepare_data_validation(),
-            isLogged: '',
-            email: '',
+            isLogged: this.props.isLogged,
+            email: this.props.email,
             password: '',
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        // this.handleInputValidation = this.handleInputValidation.bind(this)
         let authentication = localStorage.getItem('authentication');
         if (authentication) {
             let data = JSON.parse(authentication)
@@ -45,10 +49,10 @@ class Login extends Component {
         })
     }
 
-    handle_Validate(){
+    handle_Validate() {
         let { email, password } = this.state;
         let arr_validation = this.prepare_data_validation();
-        let  flag = true;
+        let flag = true;
         if (!email) {
             arr_validation[0].isValid = false;
             flag = false;
@@ -63,21 +67,28 @@ class Login extends Component {
         return flag;
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps);
+        this.setState({isLogged: nextProps.authentication.isLogged, email: nextProps.authentication.email})
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const flag = this.handle_Validate();
-        if (flag === false)  { return false }
+        if (flag === false) { return false }
         let { email, password } = this.state;
-        if (email === 'vudang@gmail.com' && password === '123456') {
-            this.setState({ ...this.state, isLogged: true });
-            localStorage.setItem('authentication', JSON.stringify({ email: email, isLogged: true }))
-        } else {
-            alert("Email or Password is not valid! Please try by EMAIL: vudang@gmail.com and PASSWORD: 123456");
-        }
+        this.props.submit_form_login(email, password)
+        // if (email === 'vudang@gmail.com' && password === '123456') {
+        //     this.setState({ ...this.state, isLogged: true });
+        //     localStorage.setItem('authentication', JSON.stringify({ email: email, isLogged: true }))
+        // } else {
+        //     alert("Email or Password is not valid! Please try by EMAIL: vudang@gmail.com and PASSWORD: 123456");
+        // }
     }
 
     render() {
         console.log(this.state);
+        console.log(this.props);
         if (this.state.isLogged) {
             return <Redirect to='/account' />
         }
@@ -92,7 +103,7 @@ class Login extends Component {
                             {this.state.validate[0].isValid === false &&
                                 <div className="invalid-feedback">{this.state.validate[0].error_msg}</div>
                             }
-                            
+
                         </div>
                         <div className="form-group">
                             <label htmlFor="pwd">Password</label>
@@ -109,4 +120,16 @@ class Login extends Component {
     }
 }
 
-export default Login;
+function mapStateToProps(state) {
+    return { authentication: state.authentication }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        submit_form_login: actLogin
+    }, dispatch);
+}
+
+// let LoginPage = connect(mapStateToProps) (Login);
+
+export default connect(mapStateToProps, mapDispatchToProps) (Login);
